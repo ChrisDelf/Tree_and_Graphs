@@ -53,7 +53,7 @@ class binaryTree():
       right_midpoint = (len (right_array) / 2)
       right_midpoint = int(right_midpoint)
 
-    self.root.left = binaryNode(right_array[right_midpoint])
+   
 
     ##  right
     left_array = temp_a[:pivot]
@@ -67,28 +67,64 @@ class binaryTree():
     if left_midpoint == 0:
       left_midpoint = (len(left_array)/2)
       left_midpoint = int(left_midpoint)
-    self.root.right = binaryNode(left_array[left_midpoint])
+  
 
-    print("left", self.root.left.value,"our Root", self.root.value, "right", self.root.right.value)
+ 
 
     ## going to irrerate through right side and rearrange the array:
     temp_x = []
     dup_check = {}
+    ## selecting the mid points for the right side
     for x in range(len(right_array)-2, 0, -2):
       temp_x.append(right_array[x])
       dup_check[right_array[x]] = 0
-    print(temp_x, dup_check)
+    
 
     for x in range(0, len(right_array)):
       if right_array[x] not in dup_check:
         temp_x.append(right_array[x])
-    print(temp_x, dup_check)
+    
+    
+
+    ##going to do the same to the left side
+    temp_y = []
+    for x in range(len(left_array)-2, 0, -2):
+      temp_y.append(left_array[x])
+      dup_check[left_array[x]] = 0
+ 
+
+    for x in range(0, len(left_array)):
+      if left_array[x] not in dup_check:
+        temp_y.append(left_array[x])
+    print(temp_y)
+
+    join_array = temp_x + temp_y
+    
+    
+
+    for x in range(0, len(join_array)):
+      selected_node = join_array[x]
+      current_node = self.root
+      while selected_node:
+        ## move right
+        if selected_node > current_node.value:
+          if current_node.right == None:
+            current_node.right = binaryNode(selected_node)
+            break
+          else:
+            current_node == current_node.right
+        ## move left   
+        if selected_node < current_node.value:
+          if current_node.left == None:
+            current_node.left = binaryNode(selected_node)
+            break
+          else:
+            current_node == current_node.left
+        
+
+        
 
     
-    while i < len(left_array) - 2:
-
-      
-      i+= 1
 
 
 bt = binaryTree(a1)
