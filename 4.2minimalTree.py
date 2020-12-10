@@ -15,6 +15,25 @@ class binaryTree():
   def __init__(self, input_array):
     self.root = None
     self.input_array = input_array
+    
+  def printTree(self):
+    print("-----",self.root,"-------")
+    end_loop = False
+    current_n = self.root
+    prev = None
+    p_stack = [self.root]
+    while len(p_stack) != 0:
+      print("!!!")
+      current_n = p_stack.pop()
+      if current_n.left != None:
+        print("left", current_n.left.value)
+        p_stack.append(current_n.left)
+        
+      if current_n.right != None:
+        print("right", current_n.right_value)
+        p_stack.append(current_n.right)
+
+
 
   def generateTree(self):
     temp_a = self.input_array
@@ -43,7 +62,7 @@ class binaryTree():
     ## goint need to get the midpoint of the left
 
     right_array= temp_a[pivot:]
-    print (right_array)
+
   
     ## getting the left side mide point
     right_midpoint = len(right_array) % 2
@@ -58,7 +77,7 @@ class binaryTree():
     ##  right
     left_array = temp_a[:pivot]
     left_array.pop()
-    print(left_array)
+ 
 
     left_midpoint = len(left_array) % 2
 
@@ -96,30 +115,52 @@ class binaryTree():
     for x in range(0, len(left_array)):
       if left_array[x] not in dup_check:
         temp_y.append(left_array[x])
-    print(temp_y)
+
 
     join_array = temp_x + temp_y
     
     
-
+    print(join_array)
     for x in range(0, len(join_array)):
       selected_node = join_array[x]
       current_node = self.root
+      print(selected_node)
+      
       while selected_node:
+        print(join_array)
+        print("current", current_node.value)
+        print("selected", selected_node)
+        counter = 0
+      
         ## move right
         if selected_node > current_node.value:
           if current_node.right == None:
             current_node.right = binaryNode(selected_node)
+            print("breaK right", current_node.right.value)
             break
           else:
-            current_node == current_node.right
-        ## move left   
+            current_node = current_node.right
+            counter += 1
+            print("moving right", current_node.value)
+        
+        ## move left 
+        print(selected_node, current_node.value)
         if selected_node < current_node.value:
           if current_node.left == None:
             current_node.left = binaryNode(selected_node)
+            print("breaK Left", current_node.left.value)
             break
           else:
-            current_node == current_node.left
+            current_node = current_node.left
+            counter += 1
+        
+   
+     
+      
+            
+
+          
+        
         
 
         
