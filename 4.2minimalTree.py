@@ -16,7 +16,6 @@ class binaryTree():
     self.root = None
     self.input_array = input_array
 
-
   def generateTree(self):
     temp_a = self.input_array
     if self.input_array is None:
@@ -43,36 +42,51 @@ class binaryTree():
     ## we are goint to set the roots
     ## goint need to get the midpoint of the left
 
-    left_array= temp_a[pivot:]
-    print(left_array)
+    right_array= temp_a[pivot:]
+    print (right_array)
   
     ## getting the left side mide point
+    right_midpoint = len(right_array) % 2
+    if  right_midpoint == 1:
+      right_midpoint = round(len(right_array)/2)
+    if  right_midpoint == 0:
+      right_midpoint = (len (right_array) / 2)
+      right_midpoint = int(right_midpoint)
+
+    self.root.left = binaryNode(right_array[right_midpoint])
+
+    ##  right
+    left_array = temp_a[:pivot]
+    left_array.pop()
+    print(left_array)
+
     left_midpoint = len(left_array) % 2
+
     if left_midpoint == 1:
       left_midpoint = round(len(left_array)/2)
     if left_midpoint == 0:
-      left_midpoint = (len(left_array) / 2)
+      left_midpoint = (len(left_array)/2)
       left_midpoint = int(left_midpoint)
-
-    self.root.left = binaryNode(left_array[left_midpoint])
-
-    ##  right
-    right_array = temp_a[:pivot]
-    right_array.pop()
-    print(right_array)
-
-    right_midpoint = len(left_array) % 2
-
-    if right_midpoint == 1:
-      right_midpoint = round(len(right_array)/2)
-    if right_midpoint == 0:
-      right_midpoint = (len(right_array)/2)
-      right_midpoint = int(right_midpoint)
-    self.root.right = binaryNode(right_array[right_midpoint])
+    self.root.right = binaryNode(left_array[left_midpoint])
 
     print("left", self.root.left.value,"our Root", self.root.value, "right", self.root.right.value)
 
+    ## going to irrerate through right side and rearrange the array:
+    temp_x = []
+    dup_check = {}
+    for x in range(len(right_array)-2, 0, -2):
+      temp_x.append(right_array[x])
+      dup_check[right_array[x]] = 0
+    print(temp_x, dup_check)
+
+    for x in range(0, len(right_array)):
+      if right_array[x] not in dup_check:
+        temp_x.append(right_array[x])
+    print(temp_x, dup_check)
+
+    
     while i < len(left_array) - 2:
+
       
       i+= 1
 
