@@ -12,6 +12,7 @@ class binaryTree():
   def __init__(self):
     self.root = None
     self.depth = 0
+    self.length = 0
     
 
   def printTree(self):
@@ -38,6 +39,7 @@ class binaryTree():
     if self.root == None:
       new_node.depth = 1
       self.root = new_node
+      self.length += 1
       return
     current_d = self.root.depth
     current_n = self.root
@@ -49,6 +51,7 @@ class binaryTree():
         if current_n.right == None:
           new_node.depth = current_d + 1
           current_n.right = new_node
+          self.length += 1
           if current_d + 1 > self.depth:
             self.depth = current_d + 1
           break
@@ -60,6 +63,7 @@ class binaryTree():
         if current_n.left == None:
           new_node.depth = current_d + 1
           current_n.left = new_node
+          self.length += 1
           if current_d + 1 > self.depth:
             self.depth = current_d + 1
           break
@@ -67,7 +71,36 @@ class binaryTree():
           current_d += 1
           current_n = current_n.left
       
-      
+  def generateDepthL(self):
+    d_list = []
+    queue = []
+    visited_dic = {}
+    for x in range(0, self.depth):
+      d_list.append([])
+    current_n = self.root
+    d_list[0].append(current_n.value)
+    print(d_list)
+    queue.append(current_n)
+    current_n = current_n.left
+    print("hello",queue[0].value)
+    while queue != None:
+     
+      x = queue.pop(0)
+    
+      if x.right != None:
+        queue.append(x.right)
+        d_list[x.right.depth - 1].append(x.right.value)
+      if x.left != None:
+        queue.append(x.left)
+        d_list[x.left.depth - 1].append(x.left.value)
+
+      if len(queue) == 0:
+        break
+
+    return d_list
+      ##if current_n.left == None and current_n.rigth == None:
+
+        
 
 b_t = binaryTree()
 
@@ -81,4 +114,7 @@ b_t.insertNode(9)
 b_t.insertNode(7)
 b_t.insertNode(10)
 
-print(b_t.depth)
+print("length", b_t.length)
+
+b_t.generateDepthL()
+          
