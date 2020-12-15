@@ -58,22 +58,37 @@ class binaryTree():
 
   def checkBalanced(self):
     queue = []
-    current_n = self.root
+    current_n = self.root.right
     queue.append(current_n)
+    ## first we are going to check the right side of the tree
+    while len(queue) > 0:
+      x = queue.pop(0)
+      if x.right != None or x.left != None:
+        if x.right != None:
+          queue.append(x.right)
+        if x.left != None:  
+          queue.append(x.left)
+        self.right_b += 1
 
+    ## now time to check the left side
+    current_n = self.root.left
+
+    queue.append(current_n)
     while len(queue) > 0:
       x = queue.pop(0)
 
-      if x.right != None:
-        queue.append(x.right)
-        print(x.right.value)
-        self.right_b += 1
-      if x.left != None:
-        print(x.left.value)
-        queue.append(x.left)
+    if x.right != None or x.left != None:
+        if x.right != None:
+          queue.append(x.right)
+        if x.left != None:  
+          queue.append(x.left)
         self.left_b += 1
     
-    print("left: ", self.right_b, "right :", self.left_b)
+    if self.right_b != self.left_b:
+      return print("Tree is not Balanced")
+    else:
+      return print("Tree is balanced")
+
 
 
 
@@ -92,6 +107,6 @@ b_t.insertNode(7)
 b_t.insertNode(15)
 b_t.insertNode(13)
 b_t.insertNode(16)
-b_t.insertNode(17)
+
 
 b_t.checkBalanced()
