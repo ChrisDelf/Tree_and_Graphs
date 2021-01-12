@@ -1,4 +1,6 @@
-##4.6 Successor: Write an algorithm to find the "next" node (i.e, in-order successor) of a given node in a binary search tree. You may assume that each node has a link to its parent
+##4.6 Successor: Write an algorithm to find the 
+##"next" node (i.e, in-order successor)
+##of a given node in a binary search tree. You may assume that each node has a link to its parent
 
 class binaryNode():
   def __init__(self,value):
@@ -15,74 +17,7 @@ class binaryTree():
     self.length = 0
     self.right_b = 0
     self.left_b = 0
-  
-  def inorderT(self):
-    stack = []
-    visited = {}
-    current = self.root
-    stack.append(current.value)
-    visited[self.root] = 0
-    current = current.left
-    visited[current] = 0
-    stack.append(current.value)
-    counter = 0
-    ##while visited.length < self.length:
-    while counter < 6:
-      print("current value:", current.left.value)
-      if current.left != None or current.right != None:
-        
-        if current.left != None:
-          if current.left not in visited:
-            visited[current.left] = 0
-            stack.append(current.left.value)
-            current = current.left
-            print(current.value)
-        if current.left == None:
-           print("left is none", current.value)
-           if current.parent.right not in visited:
-            visited[current.parent.right] = 0
-            if current.parent.right != None:
-              stack.append(current.parent.right.value)
-              current = current.parent.right
-            else:
-              break
-           else:
-             current = current.parent.right
-             print("derp")
-        
-        
-
-      
-        if current.right != None:
-        
-          
-          if current.right not in visited:
-            visited[current.right] = 0
-            stack.append(current.right.value)
-            current = current.right
     
-            
-        else:
-           
-           if current.parent.left not in visited:
-            visited[current.parent.left] = 0
-            stack.append(current.parent.left.value)
-            current = current.parent.left
-           else:
-             current = current.parent.left
-      
-      
-              
-      
-        
-        
-      counter +=1
-
-    print(stack)
-
-
-      
-
   def print_node(self):
     queue = []
 
@@ -143,6 +78,70 @@ class binaryTree():
         else:
           current_d += 1
           current_n = current_n.left
+              
+  def inorderT(self):
+    stack = []
+    visited = {}
+    current = self.root
+    visited[self.root] = 0
+    current = current.left
+    visited[current] = 0
+    stack.append(current.value)
+    counter = 0
+    ## want to keep on going until we have visited every node
+    while len(visited) <= self.length:
+      ## if we have atleast one node to visit we visit
+      if current.left != None or current.right != None:
+        ## check the left node if it is there 
+        if current.left != None:
+            ## if the node has not in visited we visit it
+          if current.left not in visited:
+            ## added to visited
+            visited[current.left] = 0
+            ## append it to our result stack
+            stack.append(current.left.value)
+            ## now we are at that node
+            current = current.left
+        ## if it is none
+        if current.left == None:
+            ## if left is none then we want to check the parent to see if it had a right node
+           if current.parent.right not in visited:
+            visited[current.parent.right] = 0
+            ## if it is not None then we added it to our result stack
+            if current.parent.right != None:
+                
+              stack.append(current.parent.right.value)
+            ## then we move to that node
+              current = current.parent.right
+            else:
+                ## once we gett here we have reach the end of the left side now we switch
+                current = self.root
+                stack.append(self.root.value)
+           else:
+             current = current.parent.right
+             
+        ## this is same a as the top except it for the right side
+        if current.right != None:
+        
+          
+          if current.right not in visited:
+            visited[current.right] = 0
+            stack.append(current.right.value)
+            current = current.right
+    
+            
+        else:
+           
+           if current.parent.left not in visited:
+            visited[current.parent.left] = 0
+            stack.append(current.parent.left.value)
+            current = current.parent.left
+           else:
+             current = current.parent.left
+    
+      return stack
+    
+
 
 b_t = binaryTree()
 
@@ -159,5 +158,3 @@ b_t.insertNode(16)
 b_t.inorderT()
 
 b_t.print_node()
-
-
