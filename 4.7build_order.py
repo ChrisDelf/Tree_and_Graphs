@@ -31,15 +31,19 @@ class projectOrder():
         for x in data:
             if x[0] not in projectsDict:
                 projectsDict[x[0]] = []
+                
                 projectsDict[x[0]].append(x[1])
-               ## newPro = projectNode()
-               ## newPro.value = x[0]
-               ## newPro.depen.append(x[1])
-               ## self.projects.add(newPro)
+                #newPro = projectNode()
+                #newPro.value = x[0]
+                #newPro.depen.append(x[1])
+                #self.projects.add(newPro)
             else:
                 projectsDict[x[0]].append(x[1])
         self.hash = projectsDict        
     
+    def printResults(self):
+        current = self.root
+        
         
     def sortProjects(self):
         
@@ -57,7 +61,6 @@ class projectOrder():
             if x not in temp_dict:
                 newNode = projectNode()
                 newNode.value = x
-                newNode.parent = self.root
                 ## we gotta grab our depencies from the hash we saved earlier
                 newNode.depen = self.hash[x]
                 self.root = newNode
@@ -70,28 +73,32 @@ class projectOrder():
         copy_root = []
         for x in self.root.depen:
             copy_root.append(x)
-        stack = copy_root
-        current_parent = self.root.value
-        
+        copy_root.append(self.root)
+        stack = [] 
+        stack.append(copy_root)
+      
+        current_parent = self.root
         while stack:
             ## going to create the rest of the nodes by adding poping off this stack
-            node = stack.pop()
+            children = stack.pop()
             ## if the node is in our project hash we create the node
-            
-            if node in self.hash:
-                newNode = projectNode()
-                newNode.value = node
-                newNode.depen = self.hash[node]
-                current = newNode
-                if newNode.depen != None:
-                    for idx in range(0, len(newNode.depen)):
-                        stack.append(newNode.depen[idx])
-            else:
+            for idx in range(0 , len(children)-1):
+                node = children[idx]
+                if node in self.hash:
+                    newNode = projectNode()
+                    newNode.value = node
+                    newNode.depen = self.hash[node]
+                    newNode.parent = children[-1]
+                    current = newNode
+                    if newNode.depen != None:
+                        for idx in range(0, len(newNode.depen)):
+                            stack.append(newNode.depen[idx])
+                else:
                 
-                newNode = projectNode()
-                newNode.value = current.depen[0]
-                newNode.depen = None
-                self.hash[node] = None
+                    newNode = projectNode()
+                    newNode.value = current.depen[0]
+                    newNode.depen = None
+                    self.hash[node] = None
                 
                 
         
@@ -112,4 +119,5 @@ test_pro = projectOrder()
 test_pro.insertProjects([["a","d"], ["f","b"], ["b","d"], ["f","a"],["d","c"]])
 
 test_pro.sortProjects()
+
 
