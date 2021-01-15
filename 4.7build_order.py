@@ -99,7 +99,7 @@ class projectOrder():
             temp_copy.append(x)
             temp_copy.append(self.root)
             stack.append(temp_copy)
-        print(self.hash)
+        
         
         current = self.root
         ##print(stack[0][0].value, stack[0][1].value, stack[0][2].value)
@@ -110,18 +110,18 @@ class projectOrder():
             ## if the node is in our project hash we create the node
             for idx in range(0 , len(children)-1):
                 node = children[idx]
-                
+               
                 if node.value in self.hash:
                     for idx in range(0, len(self.hash[node.value])):
-                        node.depen.append(self.hash[node.value][idx])
+                       
+                        if len(self.hash[node.value]) > 0:
+                            node.depen.append(self.hash[node.value][idx])
                        
                     node.parent.append(children[-1])
-                    if len(node.depen) < 0:
-        
-                        temp_arr = []
-                        for y in range(0, len(node.depen)):
-                            print(node.depen[y].value)
-                            temp_arr.append(node.depen[y])
+                    
+                     ## if there are no dependencies stop here
+                    if len(node.depen) == 0:
+                        break
                     temp_copy = []
                     temp_copy.append(self.hash[node.value][idx])
                     temp_copy.append(node)
@@ -129,13 +129,14 @@ class projectOrder():
                     
                 else:
                     newNode = projectNode()
-                    newNode.value = current.depen[0]
-                    newNode.depen = None
-                    self.hash[node] = None
+                    newNode.value = node.value
+                    newNode.depen = []
+                    newNode.parent.append(children[-1])
+                    self.hash[node.value] = newNode.depen
+                    
 
-            self.final[newNode] = 0
+
         
-        ##now we need to create the tail
         
         
         
@@ -157,4 +158,3 @@ test_pro.sortProjects()
 ## dependencies: (a,d), (f,b), (b,d), (f,a), (d,c)
 
 print(test_pro.root.depen[1].depen[0].depen[0].value)
-        
