@@ -17,13 +17,14 @@ class projectNode():
 
         
 class projectOrder():
-    def __init__(self):
+    def __init__(self, projects):
         self.root = None
         self.order = None
         self.tail = None
         self.hash = None
         self.final = {}
-        self.projects = {}
+        self.projects = projects
+        self.indep = []
         
         
         
@@ -37,29 +38,44 @@ class projectOrder():
                 projectsDict[x[0]].append(newNode)
              
             else:
+                
                 newNode = projectNode()
                 newNode.value = x[1]
                 projectsDict[x[0]].append(newNode)
-        self.hash = projectsDict        
+       
+                    
         
-    def printResults(self):
+        self.hash = projectsDict
+        
+               
+    def printOrder(self):
         current = self.root
-        project_order = []
+        result_arr = [self.root.value]
+        visited = {}
         stack = []
-        stack.append(current.depen)
+        for idx in range(0,len(self.root.depen)):
+            stack.append(self.root.depen[idx])
+       
+        visited[self.root] = 0 
+        
+    
+        ## this check is required since we have to check for projects that have no connections to any other projects
+        if len(self.projects) != len(self.hash):
+            for x in self.projects:
+                if x not in self.hash:
+                    newNode = projectNode()
+                    newNode.value = x
+                    self.indep.append(newNode)
+                    result_arr.append(x)
+        
+        
+        ## now we are going to tranverse the graph
         
         while stack:
-            project_order.append(current.value)
-            stack.append(current.depen)
-            node = stack.pop()
-            current = node
             
-            if node[-1] in self.final:
-                
-                current = self.final[node]
-               
- 
             
+            
+        
         
         
     def sortProjects(self):
@@ -145,16 +161,17 @@ class projectOrder():
            
             
             
-        
+input_arr = ["a","b","c","d","e","f"]       
         
                 
-test_pro = projectOrder()
+test_pro = projectOrder(input_arr)
 
 test_pro.insertProjects([["a","d"], ["f","b"], ["b","d"], ["f","a"],["d","c"]])
 
 test_pro.sortProjects()
 
+
 ##test_pro.printResults()
 ## dependencies: (a,d), (f,b), (b,d), (f,a), (d,c)
 
-print(test_pro.root.depen[1].depen[0].depen[0].value)
+test_pro.printOrder()
