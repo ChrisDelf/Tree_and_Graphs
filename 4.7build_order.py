@@ -21,31 +21,32 @@ class projectOrder():
         self.root = None
         self.order = None
         self.tail = None
-        self.hash = None
+        self.hash = {}
         self.final = {}
         self.projects = projects
         self.indep = []
+    
+    def createNodes(self):
         
-        
-        
-    def insertProjects(self, data):
+        for x in  self.projects:
+            newNode = projectNode()
+            newNode.value = x
+            self.hash[newNode.value] = newNode
+
+    def connectProjects(self, data):
         projectsDict = {}
         for x in data:
-            if x[0] not in projectsDict:
-                projectsDict[x[0]] = []
-                newNode = projectNode()
-                newNode.value = x[1]
-                projectsDict[x[0]].append(newNode)
-             
-            else:
-                
-                newNode = projectNode()
-                newNode.value = x[1]
-                projectsDict[x[0]].append(newNode)
+            if x[0] in self.hash and x[1] in self.hash:
+                ## we want to add the dependant nodes to the project
+                self.hash[x[0]].depen.append(self.hash[x[1]])
+                ## then we want to go the other way to add the parent to the dependant node
+                self.hash[x[1]].parent.append(self.hash[x[0]])
+        
+            
        
                     
         
-        self.hash = projectsDict
+        print(self.hash)
 
     def printOrder(self):
         current = self.root
@@ -111,106 +112,11 @@ class projectOrder():
             result_arr.append(node.value)
             for idx in range(0, len(node.depen)):
                 stack.append(node.depen[idx])
-                        
-      
             
             
         
         
-        
-    def sortProjects(self):
-        
-        ## its time to look for root project
-        ## store the edges to a temp array
-        temp_array = self.hash.values()
-        
-        
-        ## want to convert it into a dict for quick look up
-        temp_dict = {}
-        for x in temp_array:
-            for idx in range(0,len(x)):
-                if x[idx] not in temp_dict:
-                    temp_dict[x[idx].value] = 0
-        ## now since we have sort our all the edges we can find which node could be a root
-        for x in self.hash:
-            if x not in temp_dict:
-                newNode = projectNode()
-                newNode.value = x
-                ## we gotta grab our depencies from the hash we saved earlier
-                for idx in range(0, len(self.hash[x])):
-                    depen_node = projectNode()
-                    newNode.depen.append(self.hash[x][idx])
-                self.root = newNode
-                break
     
-        ## if we still don't have a root this project will fail        
-        if self.root == None:
-            return False
-        
-        ## have to start somewhere with our stack why not with the root
-        stack = [] 
-        
-        for x in self.root.depen:
-            temp_copy = []
-            ## depen
-            temp_copy.append(x)
-            ## parent info
-            temp_copy.append(self.root)
-            stack.append(temp_copy)
-        current = self.root
-        
-        
-        print(self.hash['b'][0].value)
-        print(self.hash['a'][0].value)
-        ##print(stack[0][0].value, stack[0][1].value, stack[0][2].value)
-        while stack:
-            ## going to create the rest of the nodes by adding poping off this stack
-            
-            children = stack.pop()
-            print(children[0].value, children[-1].value)
-            ## if the node is in our project hash we create the node
-            for idx in range(0 , len(children)-1):
-                node = children[idx]
-                print(" 1 Node parents :", node.parent)
-                
-                   
-                if node.value in self.hash:
-                    
-                    ##print(self.hash[node.value])
-                    for idx in range(0, len(self.hash[node.value])):
-                       
-                        if len(self.hash[node.value]) > 0:
-                        
-                            node.depen.append(self.hash[node.value][idx])
-                    t_array = node.parent
-                    print("yatg" , t_array)
-                    t_array.append(children[-1])
-                    print(t_array)
-                    node.parent = t_array
-                    
-                    
-                    if node.value == 'd':
-                        for y in node.parent:
-                            print(y.value)
-                
-                     ## if there are no dependencies stop here
-                    if len(node.depen) == 0:
-                        print("yarg")
-                        break
-
-                    temp_copy = []
-                    ## depen
-                    temp_copy.append(self.hash[node.value][idx])
-                    ## parent
-                    temp_copy.append(node)
-                    stack.append(temp_copy)
-              
-                else:
-                    newNode = projectNode()
-                    newNode.value = node.value
-                    newNode.depen = []
-                    newNode.parent.append(children[-1])
-                    self.hash[node.value] = newNode.depen
                 
                     
 
@@ -224,19 +130,11 @@ class projectOrder():
            
             
             
-input_arr = ["a","b","c","d","e","f"]       
-        
-                
+input_arr = ["a","b","c","d","e","f"]
+input_2d = [["a","d"], ["f","b"], ["b","d"], ["f","a"],["d","c"]]
 test_pro = projectOrder(input_arr)
 
-test_pro.insertProjects([["a","d"], ["f","b"], ["b","d"], ["f","a"],["d","c"]])
+test_pro.createNodes()
+test_pro.connectProjects(input_2d)
 
-test_pro.sortProjects()
-
-
-##test_pro.printResults()
-## dependencies: (a,d), (f,b), (b,d), (f,a), (d,c)
-## output:f, e, a, b, d, c
-
-
-test_pro.printOrder()
+print(test_pro.hash[''].parent[0].value)
