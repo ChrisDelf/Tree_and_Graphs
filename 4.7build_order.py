@@ -22,7 +22,7 @@ class projectOrder():
         self.order = None
         self.tail = None
         self.hash = {}
-        self.final = {}
+        self.dependant = None
         self.projects = projects
         self.indep = []
     
@@ -41,12 +41,15 @@ class projectOrder():
                 self.hash[x[0]].depen.append(self.hash[x[1]])
                 ## then we want to go the other way to add the parent to the dependant node
                 self.hash[x[1]].parent.append(self.hash[x[0]])
+            ## we want to find the root and save it for later
+            if x[1] not in projectsDict:
+                projectsDict[x[1]] = 0
+        for x in data:
+            if x[0] not in projectsDict:
+                self.root = self.hash[x[0]]
         
-            
-       
-                    
-        
-        print(self.hash)
+        self.dependant = projectsDict
+
 
     def printOrder(self):
         current = self.root
@@ -58,17 +61,17 @@ class projectOrder():
        
         visited[self.root.value] = 0 
         
-    
+        self.dependant[self.root.value] = 0
         ## this check is required since we have to check for projects that have no connections to any other projects
-        if len(self.projects) != len(self.hash):
+        if len(self.dependant) != len(self.hash):
             for x in self.projects:
-                if x not in self.hash:
+                if x not in self.dependant:
                     newNode = projectNode()
                     newNode.value = x
                     self.indep.append(newNode)
                     result_arr.append(x)
         
-        
+
         ## now we are going to tranverse the graph
         
         while stack:
@@ -78,7 +81,7 @@ class projectOrder():
             ## we want to see if we have visited all of the parents
             for idx in range(0, len(node.parent)):
                 if node.parent[idx].value in visited:
-                    print("POOP")
+                    
               
                 ## now we have to append the the new depedancies to the stack
 
@@ -95,46 +98,21 @@ class projectOrder():
                     current_node = node
                     node = node.parent
 
-                    while node:
+                    #while node:
                       
-                        if node not in visited:
+                        #if node not in visited:
 
-                            stack.append(node)
-                            current_node = node
-                            node = node.parent
-                        else:
-                            node = current_node
-                            visited[node.value] = 0
-                            results_arr.append(node.value)
-                            break
+                            #stack.append(node)
+                            #current_node = node
+                            #node = node.parent
+                        #else:
+                            #node = current_node
+                            #visited[node.value] = 0
+                            #results_arr.append(node.value)
+                            #break
             ## now that we done all the checks we can now append the depens to the stack
             visited[node.value] = 0
             result_arr.append(node.value)
             for idx in range(0, len(node.depen)):
                 stack.append(node.depen[idx])
             
-            
-        
-        
-    
-                
-                    
-
-
-        
-        
-        
-        
-                    
-            
-           
-            
-            
-input_arr = ["a","b","c","d","e","f"]
-input_2d = [["a","d"], ["f","b"], ["b","d"], ["f","a"],["d","c"]]
-test_pro = projectOrder(input_arr)
-
-test_pro.createNodes()
-test_pro.connectProjects(input_2d)
-
-print(test_pro.hash[''].parent[0].value)
