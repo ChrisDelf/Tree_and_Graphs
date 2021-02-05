@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 class Main {
   
 // A binary search tree was created by traversing through an array from left to right and inserting each element. Given a binary search tree with distinct elements, print all possible arrays that could have led to this tree.
@@ -101,12 +103,45 @@ while(current_node != null){
     else{
       current_node = current_node.getRight();
     }
-}
+}}}
+
+/// travesing the tree
+
+public void print_Tree() {
+
+  // going the need a stack
+  ArrayList<Tree_node> stack = new ArrayList<Tree_node>();
+
+  // want the append the root into our stack
+  stack.add(this.root);
+  
+
+  while(stack.size() != 0){
+
+    Tree_node current_node = stack.get(stack.size() -1);
+    stack.remove(stack.size() - 1);
+    System.out.println(current_node.getValue());
+    if(current_node.getLeft() != null){
+      stack.add(current_node.getLeft());
+
+    }
+
+    if(current_node.getRight() != null){
+      stack.add(current_node.getRight());
+    }
+
+  if (stack.size() == 0) {
+    break;
+  }
+
+  }
+
+
+
 
 }
 
 
-}
 
 }
 
@@ -123,6 +158,9 @@ public void run(){
     tree.insert_node(3);
     tree.insert_node(2);
     tree.insert_node(5);
+    tree.insert_node(1);
+    tree.insert_node(6);
+    tree.print_Tree();
 }
 
 
