@@ -166,50 +166,52 @@ public ArrayList<LinkedList<Integer>> sequences(Tree_node node) {
     result.add(new LinkedList<Integer>());
     return result;
   }
- LinkedList<Tree_node> prefix = new LinkedList<Integer>();
- prefix.add(node);
+ LinkedList<Integer> prefix = new LinkedList<Integer>();
+ prefix.add(node.value);
 
  // Recurse on left and right subtrees
-  LinkedList<Tree_node> leftSeq = sequences(node.left);
-  LinkedList<Tree_node> rightSeq = sequences(node.right);
+  ArrayList<LinkedList<Integer>> leftSeq = sequences(node.left);
+  ArrayList<LinkedList<Integer>> rightSeq = sequences(node.right);
 
   // Weave each list from the left and right sides.
   for (LinkedList<Integer> left : leftSeq) {
     for (LinkedList<Integer> right: rightSeq){
       ArrayList<LinkedList<Integer>> weaved = new ArrayList<LinkedList<Integer>>();
-      weaveLists(left, right, weaved,prefix);
-    reuslt.addAll(weaved);
+      weaveList(left, right, weaved,prefix);
+    result.addAll(weaved);
     }
   }
-
+return result;
 }
 // now we create the function to weave the lists together in all possible ways. This algorithm works by removing the head from one list, recursing and doing the same thing with the other list.
 
 public void weaveList(LinkedList<Integer> first,  LinkedList<Integer> second,  ArrayList<LinkedList<Integer>> results, LinkedList<Integer> prefix){
   // One list is empty. add remainder to [a clone] prefix and store result.
-
-  if(first.size() == 0 || second.size() == 0){
-    LinkeList<Integer> result = (LinkedList<Integer>) prefix.clone();
+  
+  if(first.size() <= 0 || second.size() <= 0){
+    LinkedList<Integer> result = (LinkedList<Integer>) prefix.clone();
     result.addAll(first);
     result.addAll(second);
-    result.addAll(prefix);
+    results.add(result);
     return;
 
   }
   //Recurse with head of the first added to the prefix. Removing the head will damage first, so we'll need ot put it back where we found it afterwards.
 int head_First = first.removeFirst();
 prefix.addLast(head_First);
-weaveLists(first, second, result, prefix);
+weaveList(first, second, results, prefix);
 prefix.removeLast();
 // we put it back
 first.addFirst(head_First);
 
 
 // we have to do the same thing to the second array
-
+if (second.size() == 0){
+  return;
+}
 int head_second = second.removeFirst();
 prefix.addLast(head_second);
-weaveLists(first, second, result, prefix);
+weaveList(first, second, results, prefix);
 prefix.removeLast();
 // we put it back
 first.addFirst(head_second);
@@ -220,6 +222,7 @@ first.addFirst(head_second);
 public static void main(String[] args) {
     Main main = new Main();
     main.run();
+    
 
   }
 
@@ -232,6 +235,7 @@ public void run(){
     tree.insert_node(6);
     tree.insert_node(4);
     tree.print_Tree();
+    System.out.println(tree.sequences(tree.root));
 }
 
 
