@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.*;
 
 class Main {
   
@@ -158,42 +159,62 @@ public void print_Tree() {
 // we know that the first element has to zero.
 
 
-public void possible_arrays() {
-  // going the need a stack
-  ArrayList<Tree_node> stack = new ArrayList<Tree_node>();
-  // also going to need a nested array to store our possible arrays
-  ArrayList<ArrayList<Tree_node>> results_array = new ArrayList<ArrayList<Tree_node>>();
+public ArrayList<LinkedList<Integer>> sequences(Tree_node node) {
+  ArrayList<LinkedList<Integer>> result = new ArrayList<LinkedList<Integer>>();
 
-  // playing on using a nest while loop
-  boolean isProduced = false;
-  while(isProduced != true){
-    //we know that the first element of the array is always going to same.
-    ArrayList<Integer> distinct_array = new ArrayList<Integer>();
-    distinct_array.add(this.root.getValue());
-  // now we start with the traversel;
-  while(stack.size() != 0){
-    Tree_node current_node = stack.get(stack.size() -1);
-    stack.remove(stack.size() - 1);
-
-   if(current_node.getLeft() != null){
-      distinct_array.add(current_node.getValue());
-      stack.add(current_node.getLeft());
-
-    }
-
-    if(current_node.getRight() != null){
-      stack.add(current_node.getRight());
-    }
-
-  if (stack.size() == 0) {
-    break;
+  if(node == null){
+    result.add(new LinkedList<Integer>());
+    return result;
   }
+ LinkedList<Tree_node> prefix = new LinkedList<Integer>();
+ prefix.add(node);
 
+ // Recurse on left and right subtrees
+  LinkedList<Tree_node> leftSeq = sequences(node.left);
+  LinkedList<Tree_node> rightSeq = sequences(node.right);
 
-  }
+  // Weave each list from the left and right sides.
+  for (LinkedList<Integer> left : leftSeq) {
+    for (LinkedList<Integer> right: rightSeq){
+      ArrayList<LinkedList<Integer>> weaved = new ArrayList<LinkedList<Integer>>();
+      weaveLists(left, right, weaved,prefix);
+    reuslt.addAll(weaved);
+    }
   }
 
 }
+// now we create the function to weave the lists together in all possible ways. This algorithm works by removing the head from one list, recursing and doing the same thing with the other list.
+
+public void weaveList(LinkedList<Integer> first,  LinkedList<Integer> second,  ArrayList<LinkedList<Integer>> results, LinkedList<Integer> prefix){
+  // One list is empty. add remainder to [a clone] prefix and store result.
+
+  if(first.size() == 0 || second.size() == 0){
+    LinkeList<Integer> result = (LinkedList<Integer>) prefix.clone();
+    result.addAll(first);
+    result.addAll(second);
+    result.addAll(prefix);
+    return;
+
+  }
+  //Recurse with head of the first added to the prefix. Removing the head will damage first, so we'll need ot put it back where we found it afterwards.
+int head_First = first.removeFirst();
+prefix.addLast(head_First);
+weaveLists(first, second, result, prefix);
+prefix.removeLast();
+// we put it back
+first.addFirst(head_First);
+
+
+// we have to do the same thing to the second array
+
+int head_second = second.removeFirst();
+prefix.addLast(head_second);
+weaveLists(first, second, result, prefix);
+prefix.removeLast();
+// we put it back
+first.addFirst(head_second);
+}
+
 }
 
 public static void main(String[] args) {
