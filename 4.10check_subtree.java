@@ -1,3 +1,7 @@
+import java.util.ArrayList;
+import java.util.*;
+
+
 class Main {
 
   public class Tree_node{
@@ -151,6 +155,65 @@ public void print_Tree() {
 
   // A tree T2 is a subtree of T1 if there exists a node n in T1 such that the subtree n is identical to T2 that is, if you cut off the tree a node n, the two trees would be identical
 
-  public static void main(String[] args) {
-    System.out.println("Hello world!");
+  public boolean check_SubTree(binary_tree T1, binary_tree T2){
+    // first thing we want to do is to make sure both of the inputs are not null
+
+    if (T1 == null || T2 == null){
+      return False;
+    }
+
+    // we know the target of the for T1 is going to be the root of T2 
+    int t2_target = T2.root.getValue();
+
+    // we want to know what direction sub tree we are going to go with
+    // we are going to have to do a graph travesle
+
+    ArrayList<Tree_Node> stack = new ArrayList<Tree_node>();
+
+
+    if (T1.root.getValue() > t2_target ){
+      stack.add(T1.root.left);
+    }
+    else {
+      stack.add(T1.root.right);
+    }
+ while(stack.size() != 0){
+
+    Tree_node current_node = stack.get(stack.size() -1);
+    stack.remove(stack.size() - 1);
+    System.out.println(current_node.getValue());
+    if (current_node.getValue() == t2_target)
+    // now since we hit the target
+    {
+
+    }
+    if(current_node.getLeft() != null){
+      stack.add(current_node.getLeft());
+
+    }
+
+    if(current_node.getRight() != null){
+      stack.add(current_node.getRight());
+    }
+
+  if (stack.size() == 0) {
+    break;
   }
+
+  }
+
+
+
+    return False;
+  }
+
+
+  public void run(){
+   
+  }
+  public static void main(String[] args) {
+    Main main = new Main();
+    main.run();
+  }
+
+}
