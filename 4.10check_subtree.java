@@ -169,6 +169,7 @@ public void print_Tree() {
     // we are going to have to do a graph travesle
 
     ArrayList<Tree_Node> stack = new ArrayList<Tree_node>();
+    ArrayList<Tree_Node> stack2 = new ArrayList<Tree_node>();
 
 
     if (T1.root.getValue() > t2_target ){
@@ -177,24 +178,58 @@ public void print_Tree() {
     else {
       stack.add(T1.root.right);
     }
+    boolean isTarget = false;
  while(stack.size() != 0){
 
     Tree_node current_node = stack.get(stack.size() -1);
     stack.remove(stack.size() - 1);
     System.out.println(current_node.getValue());
-    if (current_node.getValue() == t2_target)
+    if (current_node.getValue() == t2_target )
     // now since we hit the target
     {
-
+      isTarget = true;
+      stack.add(T2.root);
+    
     }
+
+    if (isTarget == true){
+      Tree_node current_node2 = stack2.get(stack.size()-1);
+      stack2.remove(stack.size()-1);
+    }
+
     if(current_node.getLeft() != null){
       stack.add(current_node.getLeft());
+    
 
     }
+    if(current_node.getLeft() != null && current_node2.getLeft() != null && isTarget == true){
+      if (current_node.getLeft().getValue() != current_node2.getLeft().getValue()){
+        return false;
+      }else{
+        stack2.add(current_node2.getleft());
+      }
+
+    }else if (isTarget == true){
+      return false;
+    }
+
+    
+    
 
     if(current_node.getRight() != null){
       stack.add(current_node.getRight());
     }
+     if(current_node.getRight() != null && current_node2.getRight() != null && isTarget == true){
+      if (current_node.getRight().getValue() != current_node2.getRight().getValue()){
+        return false;
+      }else{
+        stack2.add(current_node2.getRight());
+      }
+
+    }else if (isTarget == true){
+      return false;
+    }
+
 
   if (stack.size() == 0) {
     break;
