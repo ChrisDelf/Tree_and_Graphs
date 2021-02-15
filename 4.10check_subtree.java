@@ -159,7 +159,7 @@ public void print_Tree() {
     // first thing we want to do is to make sure both of the inputs are not null
 
     if (T1 == null || T2 == null){
-      return False;
+      return false;
     }
 
     // we know the target of the for T1 is going to be the root of T2 
@@ -168,8 +168,8 @@ public void print_Tree() {
     // we want to know what direction sub tree we are going to go with
     // we are going to have to do a graph travesle
 
-    ArrayList<Tree_Node> stack = new ArrayList<Tree_node>();
-    ArrayList<Tree_Node> stack2 = new ArrayList<Tree_node>();
+    ArrayList<Tree_node> stack = new ArrayList<Tree_node>();
+    ArrayList<Tree_node> stack2 = new ArrayList<Tree_node>();
 
 
     if (T1.root.getValue() > t2_target ){
@@ -179,6 +179,9 @@ public void print_Tree() {
       stack.add(T1.root.right);
     }
     boolean isTarget = false;
+    // we need to add the root to stack 2
+    stack2.add(T2.root);
+ Tree_node current_node2 = new Tree_node();
  while(stack.size() != 0){
 
     Tree_node current_node = stack.get(stack.size() -1);
@@ -191,9 +194,9 @@ public void print_Tree() {
       stack.add(T2.root);
     
     }
-
+    //------------------------
     if (isTarget == true){
-      Tree_node current_node2 = stack2.get(stack.size()-1);
+      current_node2 = stack2.get(stack.size()-1);
       stack2.remove(stack.size()-1);
     }
 
@@ -202,23 +205,26 @@ public void print_Tree() {
     
 
     }
+    if (current_node2 != null) {
     if(current_node.getLeft() != null && current_node2.getLeft() != null && isTarget == true){
       if (current_node.getLeft().getValue() != current_node2.getLeft().getValue()){
         return false;
-      }else{
-        stack2.add(current_node2.getleft());
+      }
+      else{
+        stack2.add(current_node2.getLeft());
       }
 
-    }else if (isTarget == true){
+    }
+    else if (isTarget == true){
       return false;
     }
-
-    
-    
+    }
 
     if(current_node.getRight() != null){
       stack.add(current_node.getRight());
     }
+
+    if (current_node2 != null) {
      if(current_node.getRight() != null && current_node2.getRight() != null && isTarget == true){
       if (current_node.getRight().getValue() != current_node2.getRight().getValue()){
         return false;
@@ -228,6 +234,7 @@ public void print_Tree() {
 
     }else if (isTarget == true){
       return false;
+    }
     }
 
 
@@ -239,11 +246,25 @@ public void print_Tree() {
 
 
 
-    return False;
+    return true;
   }
 
 
   public void run(){
+    binary_tree Tree_1 = new binary_tree();
+    binary_tree Tree_2 = new binary_tree();
+
+    Tree_1.insert_node(12);
+    Tree_1.insert_node(7);
+    Tree_1.insert_node(8);
+    Tree_1.insert_node(3);
+    Tree_1.insert_node(5);
+    
+    Tree_2.insert_node(7);
+    Tree_2.insert_node(8);
+    Tree_2.insert_node(3);
+    Tree_2.insert_node(5);
+
    
   }
   public static void main(String[] args) {
