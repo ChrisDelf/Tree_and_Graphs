@@ -159,6 +159,7 @@ public void print_Tree() {
     // first thing we want to do is to make sure both of the inputs are not null
 
     if (T1 == null || T2 == null){
+      System.out.println("T1 or T2 null");
       return false;
     }
 
@@ -215,7 +216,8 @@ public void print_Tree() {
       }
 
     }
-    else if (isTarget == true){
+    else if ((current_node.getLeft() != null && current_node2.getLeft() == null &&isTarget == true )||(current_node.getLeft() == null && current_node2.getLeft() != null &&isTarget == true )){
+      System.out.println("T1 or T2 left null");
       return false;
     }
     }
@@ -232,13 +234,17 @@ public void print_Tree() {
         stack2.add(current_node2.getRight());
       }
 
-    }else if (isTarget == true){
+    }else if ((current_node.getRight() != null && current_node2.getRight() == null &&isTarget == true )||(current_node.getRight() == null && current_node2.getRight() != null &&isTarget == true )){
+      System.out.println("T1 or T2 right null");
       return false;
     }
     }
 
 
   if (stack.size() == 0) {
+    break;
+  }
+  if (stack2.size() == 0) {
     break;
   }
 
@@ -263,13 +269,18 @@ public void print_Tree() {
     Tree_2.insert_node(7);
     Tree_2.insert_node(8);
     Tree_2.insert_node(3);
-    Tree_2.insert_node(5);
+    Tree_2.insert_node(2);
+    System.out.println(check_SubTree(Tree_1, Tree_2));
+    
+
+
 
    
   }
   public static void main(String[] args) {
     Main main = new Main();
     main.run();
+    
   }
 
 }
