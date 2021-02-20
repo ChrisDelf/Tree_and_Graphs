@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.*;
+
 class Main {
   public class Tree_node{
 private Tree_node parent;
@@ -113,10 +116,53 @@ while(current_node != null){
       current_node = current_node.getRight();
     }
 }}}
+}
 // Paths with sum: You are given a binary tree in which each node contains an integer value (which might be positive or negative). Desing an algorithm to count the number of paths that sum to a given value. The path does not need to start or end at the root or leaf, but it must go downwards (raveling only from parent nodes to child node).
+public boolean paths_with_sum(binary_tree T1, int input){
+System.out.println(T1.root.value + input);
+  if (T1.root == null )
+  {
+    return false;
+  }
+ // if (input > T1.root.value){
+   // return false;
+//  }
+  if (input == T1.root.value){
+    return true;
+  }
+  // first thing we can sub track from the sum in the root of the tree:
+  int current_sum = T1.root.value - input; 
+  System.out.println(current_sum);
+  return true;
 }
 
+
+
+
+
+  public void run(){
+    System.out.println("are we running");
+    binary_tree Tree = new binary_tree();
+    Tree.insert_node(14);
+    Tree.insert_node(7);
+    Tree.insert_node(9);
+    Tree.insert_node(2);
+    Tree.insert_node(5);
+    Tree.insert_node(1);
+    Tree.insert_node(23);
+    Tree.insert_node(18);
+    Tree.insert_node(15);
+    Tree.insert_node(22);
+    System.out.println(Tree);
+    
+    System.out.print(paths_with_sum(Tree, 5));
+
+
+
+  }
   public static void main(String[] args) {
-    System.out.println("Hello world!");
+    Main main = new Main();
+  
+    main.run();
   }
 }
