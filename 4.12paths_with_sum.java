@@ -60,7 +60,7 @@ public Tree_node getRoot() {
 
 public ArrayList<Integer> getSequence(){
 
-  return this.sequence_arr;
+ return this.sequence_arr;
 }
 
 public void addSequence(int node){
@@ -116,32 +116,116 @@ while(current_node != null){
       current_node = current_node.getRight();
     }
 }}}
+/// travesing the tree
+
+public void print_Tree() {
+  System.out.println(this.sequence_arr);
+  // going the need a stack
+  ArrayList<Tree_node> stack = new ArrayList<Tree_node>();
+
+  // want the append the root into our stack
+  stack.add(this.root);
+  
+
+  while(stack.size() != 0){
+
+    Tree_node current_node = stack.get(stack.size() -1);
+    stack.remove(stack.size() - 1);
+    System.out.println(current_node.getValue());
+    if(current_node.getLeft() != null){
+      stack.add(current_node.getLeft());
+
+    }
+
+    if(current_node.getRight() != null){
+      stack.add(current_node.getRight());
+    }
+
+  if (stack.size() == 0) {
+    break;
+  }
+
+  }
 }
+}
+
+
+
 // Paths with sum: You are given a binary tree in which each node contains an integer value (which might be positive or negative). Desing an algorithm to count the number of paths that sum to a given value. The path does not need to start or end at the root or leaf, but it must go downwards (raveling only from parent nodes to child node).
-public boolean paths_with_sum(binary_tree T1, int input){
-System.out.println(T1.root.value + input);
-  if (T1.root == null )
+public boolean paths_with_sum(Tree_node T1, int input_sum){
+
+  if (T1 == null )
   {
     return false;
   }
+  // want ot add a variable to keep track which branch is off limits due to it being no longer vairable
+  boolean goLeft = true;
+  boolean goRight = true;
  // if (input > T1.root.value){
    // return false;
 //  }
-  if (input == T1.root.value){
+  if (input_sum == T1.value){
     return true;
   }
   // first thing we can sub track from the sum in the root of the tree:
-  int current_sum = T1.root.value - input; 
-  System.out.println(current_sum);
-  return true;
-}
+  int current_sum = T1.value; 
+  System.out.println(current_sum + "should be 14");
+  
+  ArrayList <Tree_node> stack = new ArrayList<Tree_node> ();
+  stack.add(T1);
+  while(current_sum <= input_sum){
+
+    Tree_node current_node = stack.get(stack.size() -1);
+    stack.remove(stack.size() - 1);
+    System.out.println(current_node.getValue() + "Should be first value");
+
+    if(current_node.getLeft() != null && goLeft == true){
+     
+      // want to make sure the current_node value is less then or equal to the target_sum
+      if (current_sum + current_node.getLeft().getValue() <= input_sum){
+      current_sum = current_sum + current_node.getLeft().getValue();
+      stack.add(current_node.getLeft());
+      }
+      else {
+        goLeft = false;
+      }
+    }
+
+    if(current_node.getRight() != null && goRight == true){
+      stack.add(current_node.getRight());
+      // want to make sure the current_node value is less then or equal to the target_sum
+      if (current_sum + current_node.getRight().getValue() <= input_sum){
+      current_sum = current_sum + current_node.getRight().getValue();
+      stack.add(current_node.getRight());
+      }
+      else {
+        goRight = false;
+      }
+    }
+    if (current_sum == input_sum){
+      return true;
+    }
+    if (stack.size() == 0) {
+      break;
+    }
+
+
+    }
+    return false;
+    }
+
+
+ 
+
+  
+
+
 
 
 
 
 
   public void run(){
-    System.out.println("are we running");
     binary_tree Tree = new binary_tree();
     Tree.insert_node(14);
     Tree.insert_node(7);
@@ -155,9 +239,7 @@ System.out.println(T1.root.value + input);
     Tree.insert_node(22);
     System.out.println(Tree);
     
-    System.out.print(paths_with_sum(Tree, 5));
-
-
+    System.out.print(paths_with_sum(Tree.root, 21));
 
   }
   public static void main(String[] args) {
