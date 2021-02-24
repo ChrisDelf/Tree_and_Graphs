@@ -53,3 +53,9 @@ def is_match(text, pattern):
       special_pointer += 1
       pattern_pointer += 1
     else if character == pattern_1[pattern_pointer] && symbol == "*";
+      ## now we must loop through the text string until we find the end
+      for i in range(text_pointer, len(text_1));
+        if text_1[text_pointer] != character:
+          return False;
+        
+    return True;
