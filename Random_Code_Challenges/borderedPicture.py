@@ -1,46 +1,45 @@
 def addBorder(picture):
-    ## to add a border we must know the lenght and height of the 2d grid
+    ## lets first get the height and width of this picture
     height = len(picture)
-    length = len(picture[0])
+    width = len(picture[0])
     
-    ## for the border of the height we must add addition rows
-    ## for the length we must additional columns
+    ## going to to create a new array to hold our modiftied array
     
-    borderedP = []
-    topRow = []
-    bottomRow = []
+    borderdP = []
     
-    ##going to create the first and last rows
-    for i in range(0, len(length + 2)):
-        topRow.append("*")
-        bottomRow.append("*")
-    ## going to append our rows
-    for j in range(0,len(height + 2)):
-        ## adding the top border
-        if j == 0:
-            borderedP.append(topRow)
-        elif j == len(height + 2):
-            borderdP.append(bottomRow)
+    ## before we iterrate through any arrays lets check our input
+    if picture == None or len(picture) == 0:
+        return False
+    
+    ## we know that we will have a top and bottom border
+    topBorder = ""
+    bottomBorder = ""
+    
+    ## now lets fill those borders with * have to add the + 2 to account for the sides
+    
+    for i in range(0, width + 2):
+        topBorder += "*"
+        
+    ## copy top border to bottom since they should be the same
+    bottomBorder = topBorder
+    
+    ## now to tie this all together
+    
+    for i in range(0, height + 2):
+        ## if we are at the first index we must added the top
+        if i == 0:
+            borderdP.append(topBorder)
+        
+        ## since this is the last row that we add we must break out of it
         else:
-            tempArray = []
-            for x in range(0,len(length + 2))
             
-                if x == 0:
-                    tempArray.append("*")
-                elif x == len(length + 2):
-                    tempArray.append("*")
-                else:
-                    
+            for j in picture:
+                tempString = "*"
+                tempString += j
+                tempString += "*"
+                borderdP.append(tempString)
         
-        
-        
-            
-        
-        
-    if len(picture) <= 0:
-        break
-    
-    ## now for us to append the toprow
-    borderedP.append(topRow)
-    
-    
+            borderdP.append(bottomBorder)
+            break    
+                
+    return borderdP
